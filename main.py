@@ -72,5 +72,25 @@ def query_by_name(name):
     DATA = {**{"status": status[0], "status_message": f'{status[1]}{status[2]}'}, **DATA}
     return jsonify(DATA), status[0]
 
+
+#/?num=x
+@app.route('/quote/random')
+def random_quote():
+    status = [200, "OK", ""]
+    random_author = random.choice(list(QUOTES.keys()))
+    DATA = {"quotes": [{random.choice(QUOTES[random_author]) : random_author}]}
+    NUM_QUOTES = sum([len(QUOTES[i]) for i in QUOTES])
+    num = request.args.get('num')
+    if num:
+        while len(DATA["quotes"]) < int(num):
+            rand_qa = random.choice(list(QUOTES.items()))
+            rand_q = {random.choice(rand_qa[1]): rand_qa[0]}
+            DATA["quotes"] += [rand_q] if rand_q not in DATA["quotes"] else []
+            if int(num) > NUM_QUOTES and len(DATA["quotes"]) == NUM_QUOTES:
+                status = [400, "Bad Request", " - ERROR: num value given by user too large"]
+                break
+    DATA = {**{"status": status[0], "status_message": f'{status[1]}{status[2]}'}, **DATA}
+    return jsonify(DATA), status[0]
+
 if __name__=='__main__':
     app.run()
