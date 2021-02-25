@@ -1,5 +1,5 @@
 import aiohttp
-
+import os
 
 url = "https://quote-api-vyvyvi.harperdbcloud.com"
 
@@ -8,9 +8,11 @@ payload = """{
     "sql":"SELECT * FROM dev.quotes where Author = 'eddie_jaoude'"
 }"""
 
+auth = s.getenv('auth')
+
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic Vnl2eXZpOmNydWQzMjc2OTc5YWY3ZDkxYXBw'
+  'Authorization': 'Basic {auth}'
 }
 
 import asyncio
