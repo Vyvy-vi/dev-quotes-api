@@ -10,7 +10,7 @@ url = "https://quote-api-vyvyvi.harperdbcloud.com"
 
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic {AUTH}'
+  'Authorization': f'Basic {AUTH}'
 }
 
 def nosql_search(table, search_attr, search_val, get_attrs="*"):
@@ -48,4 +48,4 @@ def fetch_author(Author):
                 }
     return res
 
-print(fetch_by_id(2))
+print(fetch_by_id(1))

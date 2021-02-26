@@ -12,11 +12,9 @@ payload = """{
     "sql":"SELECT * FROM dev.quotes where Author = 'eddie_jaoude'"
 }"""
 
-auth = s.getenv('auth')
-
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic {AUTH}'
+  'Authorization': f'Basic {AUTH}'
 }
 
 import asyncio
