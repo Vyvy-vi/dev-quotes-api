@@ -1,6 +1,10 @@
-import aiohttp
 import os
+import aiohttp
+from dotenv import load_dotenv
 
+load_dotenv()
+
+AUTH = os.environ.get("HARPER_AUTH_TOKEN")
 url = "https://quote-api-vyvyvi.harperdbcloud.com"
 
 payload = """{
@@ -12,7 +16,7 @@ auth = s.getenv('auth')
 
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic {auth}'
+  'Authorization': 'Basic {AUTH}'
 }
 
 import asyncio

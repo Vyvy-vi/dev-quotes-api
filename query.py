@@ -1,11 +1,16 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+AUTH = os.environ.get("HARPER_AUTH_TOKEN")
 url = "https://quote-api-vyvyvi.harperdbcloud.com"
-auth = ''
+
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic {auth}'
+  'Authorization': 'Basic {AUTH}'
 }
 
 def nosql_search(table, search_attr, search_val, get_attrs="*"):
@@ -37,7 +42,10 @@ def fetch_author(Author):
                 'author-id': res['id'],
                 'socials': {
                     'Discord': res['Discord'],
-                    'Twitter': res['Twitter']
+                    'Twitter': res['Twitter'],
+                    'Github': res['Github']
                     }
                 }
     return res
+
+print(fetch_by_id(2))
