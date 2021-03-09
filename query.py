@@ -30,8 +30,12 @@ def fetch_by_id(id):
 def fetch_by_author(author):
     return sql_query(query=f"SELECT * FROM dev.quotes where Author = '{author}'")
 
+def fetch_by_author_id(id):
+    author = nosql_search('author', 'id', id, 'Author')[0]['Author']
+    return fetch_by_author(author)
+
 def fetch_author(Author):
-    res = nosql_search('author', 'Author', Author, '*')
+    res = nosql_search('author', 'Author', Author)
     if len(res) == 0:
         res = "anonymous"
     else:
@@ -47,5 +51,5 @@ def fetch_author(Author):
                     }
                 }
     return res
-
-print(fetch_by_id(1))
+print(fetch_by_author_id('1'))
+print(fetch_by_author('eddie_jaoude'))

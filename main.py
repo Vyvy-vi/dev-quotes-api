@@ -55,8 +55,6 @@ def query_quote():
 def random_quote():
     status = [200, "OK", ""]
     random_author = random.choice(list(QUOTES.keys()))
-    DATA = {"quotes": [{random.choice(QUOTES[random_author]) : random_author}]}
-    NUM_QUOTES = sum([len(QUOTES[i]) for i in QUOTES])
     num = request.args.get('num')
     if num:
         while len(DATA["quotes"]) < int(num):
@@ -69,8 +67,9 @@ def random_quote():
     DATA = {**{"status": status[0], "status_message": f'{status[1]}{status[2]}'}, **DATA}
     return jsonify(DATA), status[0]
 
-@app.route('/quote/<id>')
-def query_by_id(id):
+# GET /quote/<id>
+@app.route('/quote/<int:id>')
+def query_by_id(id: int):
     status = [200, "OK", ""]
     res = fetch_by_id(id)
     if len(res) != 0:
@@ -87,11 +86,16 @@ def query_by_id(id):
         DATA = {"status": status[0], "status_message": f'{status[1]}{status[2]}'}
     return jsonify(DATA), status[0]
 
-@app.route('/quote/author/<name>')
-def query_by_name(name):
+# GET /quote/author/<name/author-id>
+@app.route('/quote/author/<index>')
+def query_by_name(index: str):
     status = [200, "OK", ""]
-    res = fetch_by_author(name)
     DATA = {}
+
+    if index.isdigit():
+        res = fetch_by_author_id(index)
+    else:
+        res = fetch_by_author(index)
     if len(res) != 0:
         DATA = {'status': status[0],
                 'status_message': f"{status[1]}{status[2]}",
