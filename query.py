@@ -57,6 +57,17 @@ def fetch_author(Author):
 def fetch_random_quote():
     return sql_query(query="SELECT * FROM dev.quotes WHERE id = %s" % (random.randint(0, quote_amount())))
 
+def fetch_many_random(num):
+    QUOTES = []
+    quotes_num = quote_amount()
+    if num < quotes_num:
+        return sql_query(query="SELECT * FROM dev.quotes")
+    else:
+        nums = random.sample(range(0, quotes_num), num)
+        for i in nums:
+            QUOTES.append(sql_query(query="SELECT * FROM dev.quotes WHERE id = %s" % i))
+        return QUOTES
+
 
 def quote_amount():
     payload = "{\n\t\"operation\":\"describe_table\",\n\t\"table\":\"quotes\",\n\t\"schema\":\"dev\"\n}"
