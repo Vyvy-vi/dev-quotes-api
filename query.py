@@ -1,6 +1,8 @@
 import requests
 import json
 import os
+import random
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -51,5 +53,16 @@ def fetch_author(Author):
                     }
                 }
     return res
-print(fetch_by_author_id('1'))
-print(fetch_by_author('eddie_jaoude'))
+
+def fetch_random_quote():
+    return sql_query(query="SELECT * FROM dev.quotes WHERE id = %s" % (random.randint(0, quote_amount())))
+
+
+def quote_amount():
+    payload = "{\n\t\"operation\":\"describe_table\",\n\t\"table\":\"quotes\",\n\t\"schema\":\"dev\"\n}"
+    res = requests.request("POST", url, headers=headers, data=payload)
+    return json.loads(res.text.encode('utf8'))['record_count'] - 1
+
+print(fetch_random_quote())
+# print(fetch_by_author_id('1'))
+# print(fetch_by_author('eddie_jaoude'))
