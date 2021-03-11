@@ -126,53 +126,6 @@ def query_by_name(index: str):
 
     return jsonify(DATA), status[0]
 
-# GET /quote/<id>
-@app.route('/quote/<int:id>')
-def query_by_id(id: int):
-    status = [200, "OK", ""]
-    res = fetch_by_id(id)
-    if len(res) != 0:
-        res = res[0]
-        DATA = {"status": status[0],
-                "status_message": f"{status[1]}{status[2]}",
-                "id": res['id'],
-                "quote": res['Quote'],
-                "categories": res['Category'],
-                "author": fetch_author(res['Author']),
-                "last_eddited_at": res['__updatedtime__']}
-    else:
-        status = [404, "Not Found", f" - Resource with id = {id} NOT found"]
-        DATA = {"status": status[0], "status_message": f'{status[1]}{status[2]}'}
-    return jsonify(DATA), status[0]
-
-# GET /quote/author/<name/author-id>
-@app.route('/quote/author/<index>')
-def query_by_name(index: str):
-    status = [200, "OK", ""]
-    DATA = {}
-
-    if index.isdigit():
-        res = fetch_by_author_id(index)
-    else:
-        res = fetch_by_author(index)
-    if len(res) != 0:
-        DATA = {'status': status[0],
-                'status_message': f"{status[1]}{status[2]}",
-                'author': fetch_author(res[0]['Author']),
-                'quotes': []}
-        for q in res:
-            quote = {
-                "quote": q['Quote'],
-                "id": q['id'],
-                "last_eddited_at": q['__updatedtime__'],
-                "categories": q['Category'],
-                "author": q["Author"].title().replace("_", " ")
-            }
-            DATA["quotes"].append(quote)
-    else:
-        status = [404, "Not Found", f" - Author with name = {name} NOT found"]
-        DATA = {"status": status[0], 'status_message': f'{status[1]}{status[2]}'}
-    return jsonify(DATA), status[0]
 
 if __name__=='__main__':
     app.run()
