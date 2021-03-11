@@ -39,7 +39,11 @@ def fetch_by_author(author):
 
 
 def fetch_by_author_id(id):
-    author = nosql_search('author', 'id', id, 'Author')[0]['Author']
+    author = nosql_search('author', 'id', id, 'Author')
+    if len(author) == 0:
+        return []
+    else:
+        author = author[0]['Author']
     return fetch_by_author(author)
 
 
