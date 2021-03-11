@@ -62,27 +62,20 @@ def fetch_author(Author):
     return res
 
 
-def fetch_random_quote():
-    return sql_query(query="SELECT * FROM dev.quotes WHERE id = %s" % (random.randint(0, quote_amount())))
-
-
-def fetch_many_random(num):
+def fetch_random_quotes(num = 1):
     QUOTES = []
     quotes_num = quote_amount()
     if num > quotes_num:
-        return sql_query(query="SELECT * FROM dev.quotes")
+        data = sql_query(query="SELECT * FROM dev.quotes")
+        return [[i] for i in data]
+
     else:
         nums = random.sample(range(0, quotes_num), num)
         for i in nums:
             QUOTES.append(sql_query(query="SELECT * FROM dev.quotes WHERE id = %s" % i))
         return QUOTES
 
-
 def quote_amount():
     payload = "{\n\t\"operation\":\"describe_table\",\n\t\"table\":\"quotes\",\n\t\"schema\":\"dev\"\n}"
     res = requests.request("POST", url, headers=headers, data=payload)
     return json.loads(res.text.encode('utf8'))['record_count']
-
-# print(fetch_many_random(2))
-# print(fetch_by_author_id('1'))
-# print(fetch_by_author('eddie_jaoude'))
