@@ -30,7 +30,7 @@ def query_quote():
             try:
                 res = random.sample(res, num)
             except:
-                status = [400, "Bad Request -", status[-1] + f"ERROR- Indexed authour doesn't have that many quotes'"]
+                status = [400, "Bad Request -", status[-1] + f"ERROR- Indexed author doesn't have that many quotes'"]
                 res = random.sample(res, 1)
     else:
         res = fetch_random_quotes(num)
@@ -53,7 +53,7 @@ def query_quote():
 
 
 # GET /quote/random/?num=x
-@app.route('/quote/random')
+@app.route('/quote/random/')
 def random_quote():
     status = [200, "OK", ""]
     num = request.args.get('num')
