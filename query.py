@@ -61,12 +61,14 @@ def fetch_author(Author):
         }
     return res
 
+
 def fetch_random_quotes(num = 1):
     QUOTES = []
     quotes_num = quote_amount()
     if num > quotes_num:
         data = sql_query(query="SELECT * FROM dev.quotes")
         return [[i] for i in data]
+
     else:
         nums = random.sample(range(0, quotes_num), num)
         for i in nums:
@@ -77,5 +79,3 @@ def quote_amount():
     payload = "{\n\t\"operation\":\"describe_table\",\n\t\"table\":\"quotes\",\n\t\"schema\":\"dev\"\n}"
     res = requests.request("POST", url, headers=headers, data=payload)
     return json.loads(res.text.encode('utf8'))['record_count']
-
-print(fetch_by_author('allan_regush'))
