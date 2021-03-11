@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--Bootstrap css file-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<style>
+    #green-text {
+        color: #0f0
+    }
+</style>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" color>
+    <div class="container-fluid">
+        <a id="green-text" class="navbar-brand" href="#">dev-quotes-api</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="https://github.com/Vyvy-vi/dev-quotes-api">Contribute |</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./docs">Docs |</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.vyvy-vi.ninja/socials.html">Contact |</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+<div align="center">
+<div class="card border-success mb-3" style="width: 70%; margin-top: 3%;">
+  <div class="card-body">
+      <h3 class="card-title"><strong>Dev-Quotes-API</strong></h3>
+    <h6 class="card-subtitle mb-2 text-muted">
+        <span class="badge rounded-pill bg-danger">status: OFFLINE</span>
+        <a href="https://raw.githubusercontent.com/Vyvy-vi/dev-quotes-api/main/LICENSE" class="btn btn-secondary btn-sm" tabindex="-1" role="button" aria-disabled="true">License: BSD</a>
+        <a href="https://github.com/Vyvy-vi/dev-quotes-api" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">Version: <span class="badge bg-secondary">v0.1</span></a>
+        <span class="badge rounded-pill bg-dark">docs: #todo</span>
+    </h6>
+    <p class="card-text" align="center">
+        The dev-quotes-api is a REST API made using Flask, and HarperDb for showcasing community quotes from developers and possibly in the future this might be connected to different services, Just for fun :P
+        The API is currently in development and might be launched soon.
+        This is an opensource project under the "BSD 3-Clause" License. 
+    </p>
+    <p>NOTE- This is a synchronous API</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <div align='center'>
+            <h4>Licensing</h4>
+        <pre align='left'>
+                  Copyright (C) 2021 Vyom Jain
+                  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+                  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+                  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+                  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+                  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+                  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+                  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+                  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+                  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+                  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        </pre></div></li>
+    <li class="list-group-item">
+        <h4>Usage of the API</h4>
+        <h6 align='left'>- Fetching random quotes from the API
+        <div class="alert alert-info" role="alert" align="left" style="padding: 0.5%; padding-left: 1%;">
+            <a href="./quote/?author=eddie_jaoude&num=2" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">GET</a>
+            &emsp;&emsp;<strong>/quote/?author={name}&num={x}</strong>
+        </div></h6>
+        <pre align='left'>
+        Fetches a random quote from the api. Click on <i>GET</i> button above for response example. 
+        Optional arguments: <strong>num</strong>- number of quotes to fetch
+                            <strong>author</strong>- fetch quotes by a particular author
+        Response Codes: 200 - OK
+                        404 - Resource not Found
+                        400 - Bad Request, when author isn't found or num argument is too high
+                        505 - Internal server Error (Kindly report these by opening an issue on the github repo)
+        </pre>
+        <div class="alert alert-info" role="alert" align="left" style="padding: 0.5%; padding-left: 1%;">
+            <a href="./quote/random/?num=2" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">GET</a>
+            &emsp;&emsp;<strong>/quote/random/?num={x}</strong>
+        </div>
+        <pre align='left'>
+        Fetches random quotes from the API. This is different from the prior query, since this is faster.
+        Click on the <i>GET</i> button above for a response example.
+        Optional arguments: <strong>num</strong>- number of quotes to fetch(defaults to 1).
+                            If value of num is too high, this query returns all the results in the db.
+        Response Codes: 200 - OK
+                        400 - Bad Request, when num argument is too high
+                        505 - Internal server Error (Kindly report these by opening an issue on the github repo)
+        </pre>
+        <h6 align='left'>- Fetching quotes by id and author-id
+        <div class="alert alert-warning" role="alert" align='left' style="padding: 0.5%; padding-left: 1%;">
+            <a href="./quote/2" class="btn btn-warning" tabindex="-1" role="button" aria-disabled="true" style="color: white;">GET</a>
+            &emsp;&emsp;<strong>/quote/{id}</strong></div></h6>
+        <pre align='left'>
+        Fetches random quote from the API with the id = {id}. The ids are purely relative
+        to when a quote was entered in the db.
+        This one is mainly for making references to a particular quote on the db.
+        Click on the <i>GET</i> button above for a response example.
+        Required arguments: <strong>id</strong>- id of the quote to fetch.
+        Response Codes: 200 - OK
+                        400 - Bad Request, when id isn't found
+                        505 - Internal server Error (Kindly report these by opening an issue on the github repo)
+        </pre>
+        <div class="alert alert-warning" role="alert" align='left' style="padding: 0.5%; padding-left: 1%;">
+            <a href="./quote/author/1" class="btn btn-warning" tabindex="-1" role="button" aria-disabled="true" style="color: white;">GET</a>
+            &emsp;&emsp;<strong>/quote/author/{id}</strong></div>
+        <pre align='left'>
+        Fetches all quotes from the API by the author with id = {id}. The ids are purely relative
+        to when an author was entered in the db.
+        This one is mainly for making references to a particular author on the db.
+        Click on the <i>GET</i> button above for a response example.
+        Required arguments: <strong>id</strong>- id of the author whose quotes to fetch
+        Response Codes: 200 - OK
+                        400 - Bad Request, when author with this id isn't found
+                        505 - Internal server Error (Kindly report these by opening an issue on the github repo)
+        </pre>
+        <h6 align='left'>- Fetching quotes by author name
+        <div class="alert alert-dark" role="alert" align='left' style="padding: 0.5%; padding-left: 1%;">
+            <a href="./quote/author/nicholas_carrigan" class="btn btn-dark" tabindex="-1" role="button" aria-disabled="true">GET</a>
+            &emsp;&emsp;<strong>/quote/author/{name}</strong></div></h6>
+        <pre align='left'>
+        Fetches all quotes from the API with the author as the queried name.
+        Click on the <i>GET</i> button above for a response example.
+        Required arguments: <strong>name</strong>- name of the author to fetch.
+        Response Codes: 200 - OK
+                        404 - Not Found, when author isn't found
+                        505 - Internal server Error (Kindly report these by opening an issue on the github repo)
+        </pre>
+    </li>
+    <li class="list-group-item">
+        <p>Tech Stack: 
+            <a href="https://www.python.org/" class="link-dark">Python</a> | 
+            <a href="https://flask.palletsprojects.com/" class="link-dark">Flask</a> | 
+            <a href="https://getbootstrap.com/" class="link-dark">Bootstrap</a> | 
+            <a href="https://harperdb.io/" class="link-dark">HarperDB</a>
+        </p>
+    </li>
+  </ul>
+  <div class="card-body">
+    <a href="https://github.com/Vyvy-vi/dev-quotes-api/issues/new/choose" class="card-link">Report issues on GitHub repo</a>
+  </div>
+</div>
+</div>
+</body>
