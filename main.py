@@ -1,5 +1,6 @@
 import random
 from flask import Flask, request, jsonify
+from query import *
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -50,36 +51,10 @@ def query_quote():
     return jsonify(DATA), status[0]
 
 #/?num=x
-@app.route('/quote/<name>')
-def query_by_name(name):
-    status = [200, "OK", ""]
-    num = request.args.get('num')
-    if name in QUOTES:
-        DATA = {"quotes": [{random.choice(QUOTES[name]): name}]}
-        if num:
-            while len(DATA["quotes"]) < int(num):
-                rand_q = {random.choice(QUOTES[name]): name}
-                DATA["quotes"] += [rand_q] if rand_q not in DATA["quotes"] else []
-                if int(num) > len(QUOTES[name]) and len(DATA["quotes"]) == len(QUOTES[name]):
-                    status = [400, "Bad Request", " - ERROR: num value given by user too large"]
-                    break
-        else:
-            DATA = {"quotes": [{quote: name} for quote in QUOTES[name]]}
-
-    else:
-        status = [404, "Not Found", f" - ERROR: No entries for {name} were found"]
-        DATA = {}
-    DATA = {**{"status": status[0], "status_message": f'{status[1]}{status[2]}'}, **DATA}
-    return jsonify(DATA), status[0]
-
-
-#/?num=x
 @app.route('/quote/random')
 def random_quote():
     status = [200, "OK", ""]
     random_author = random.choice(list(QUOTES.keys()))
-    DATA = {"quotes": [{random.choice(QUOTES[random_author]) : random_author}]}
-    NUM_QUOTES = sum([len(QUOTES[i]) for i in QUOTES])
     num = request.args.get('num')
     if num:
         while len(DATA["quotes"]) < int(num):
@@ -90,6 +65,54 @@ def random_quote():
                 status = [400, "Bad Request", " - ERROR: num value given by user too large"]
                 break
     DATA = {**{"status": status[0], "status_message": f'{status[1]}{status[2]}'}, **DATA}
+    return jsonify(DATA), status[0]
+
+# GET /quote/<id>
+@app.route('/quote/<int:id>')
+def query_by_id(id: int):
+    status = [200, "OK", ""]
+    res = fetch_by_id(id)
+    if len(res) != 0:
+        res = res[0]
+        DATA = {"status": status[0],
+                "status_message": f"{status[1]}{status[2]}",
+                "id": res['id'],
+                "quote": res['Quote'],
+                "categories": res['Category'],
+                "author": fetch_author(res['Author']),
+                "last_eddited_at": res['__updatedtime__']}
+    else:
+        status = [404, "Not Found", f" - Resource with id = {id} NOT found"]
+        DATA = {"status": status[0], "status_message": f'{status[1]}{status[2]}'}
+    return jsonify(DATA), status[0]
+
+# GET /quote/author/<name/author-id>
+@app.route('/quote/author/<index>')
+def query_by_name(index: str):
+    status = [200, "OK", ""]
+    DATA = {}
+
+    if index.isdigit():
+        res = fetch_by_author_id(index)
+    else:
+        res = fetch_by_author(index)
+    if len(res) != 0:
+        DATA = {'status': status[0],
+                'status_message': f"{status[1]}{status[2]}",
+                'author': fetch_author(res[0]['Author']),
+                'quotes': []}
+        for q in res:
+            quote = {
+                "quote": q['Quote'],
+                "id": q['id'],
+                "last_eddited_at": q['__updatedtime__'],
+                "categories": q['Category'],
+                "author": q["Author"].title().replace("_", " ")
+            }
+            DATA["quotes"].append(quote)
+    else:
+        status = [404, "Not Found", f" - Author with name = {name} NOT found"]
+        DATA = {"status": status[0], 'status_message': f'{status[1]}{status[2]}'}
     return jsonify(DATA), status[0]
 
 if __name__=='__main__':
