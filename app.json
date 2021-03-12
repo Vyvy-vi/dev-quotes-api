@@ -1,0 +1,7 @@
+{
+  "name": "dev-quotes-api",
+  "description": "A Flask REST API for quotes, which can easily be deployed to Heroku.",
+  "version": "0.0.1"
+  "repository": "https://github.com/Vyvy-vi/dev-quotes-api",
+  "keywords": ["python", "flask" ]
+}
