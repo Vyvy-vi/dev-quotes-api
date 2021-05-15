@@ -12,6 +12,10 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def render_index():
     return render_template("index.html")
 
+@app.route('/docs')
+def render_index():
+    return render_template("index.html")
+
 # GET /quote/?author=name&num=x
 @app.route('/quote/', methods=['GET'])
 def query_quote():
@@ -102,10 +106,8 @@ def query_by_name(index: str):
     status = [200, "OK", ""]
     DATA = {}
 
-    if index.isdigit():
-        res = fetch_by_author_id(index)
-    else:
-        res = fetch_by_author(index)
+    res = fetch_by_author_id(index) if index.isdigit() else fetch_by_author(index)
+
     if len(res) != 0:
         DATA = {'status': status[0],
                 'status_message': f"{status[1]}{status[2]}",
