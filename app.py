@@ -12,10 +12,6 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def render_index():
     return render_template("index.html")
 
-@app.route('/docs')
-def render_index():
-    return render_template("index.html")
-
 # GET /quote/?author=name&num=x
 @app.route('/quote/', methods=['GET'])
 def query_quote():
