@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
         types = res.headers['content-type']
         self.assertIn('application/json', types)
         data = res.json
-        self.assertTrue(len(data['otes']) != 0)
+        self.assertTrue(len(data['quotes']) != 0)
         self.assertTrue(len(data['quotes'][0]['author']) != 0)
 
     def test_quote_args(self):
