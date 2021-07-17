@@ -39,22 +39,14 @@ class TestCase(unittest.TestCase):
         data = res.json
         self.assertEqual(200, res.status_code)
         self.assertTrue(len(data['quotes']) == num)
-        res = self.app.get(f'/')
 
-    #  def test_quote_author(self):
-    #      self.assertEqual(1, 1)
-    #  def test_quote_num(self):
-    #      self.assertEqual(1, 1)
-    #  def test_quote(self):
-    #      self.assertEqual(1, 1)
-    #  def test_random(self):
-    #      self.assertEqual(1, 1)
-    #  def test_quote_id(self):
-    #      self.assertEqual(1, 1)
-    #  def test_author_name(self):
-    #      self.assertEqual(1, 1)
-    #  def test_author_id(self):
-    #      self.assertEqual(1, 1)
+    def test_quote_id(self):
+        res = self.app.get('/quote/0')
+        self.assertEqual(200, res.status_code)
+    def test_author_id(self):
+        res = self.app.get('/quote/author/0')
+        self.assertEqual(200, res.status_code)
+
 
 if __name__ == '__main__':
     unittest.main()
